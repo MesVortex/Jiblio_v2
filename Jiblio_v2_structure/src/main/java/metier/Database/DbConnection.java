@@ -1,5 +1,7 @@
 package metier.Database;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,11 +12,12 @@ public class DbConnection {
     private static Connection connection = null;
 
     public static Connection getInstance() {
+        Dotenv dotenv = Dotenv.load();
         if (connection == null) {
             try {
-                String url = "jdbc:postgresql://localhost:5432/Jiblio_v2";
-                String user = "postgres";
-                String password = "mesmos2001";
+                String url = dotenv.get("url");
+                String user = dotenv.get("user");
+                String password = dotenv.get("password");
 
                 connection = DriverManager.getConnection(url, user, password);
             } catch (SQLException e) {
